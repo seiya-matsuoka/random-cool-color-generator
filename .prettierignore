@@ -1,0 +1,12 @@
+node_modules/
+.npm-cache/
+dist/
+coverage/
+storybook-static/
+playwright-report/
+test-results/
+.vitest/
+
+# 計画時点の文書と作業ルールを自動整形から保護する。
+docs/before-development/
+AGENTS.md

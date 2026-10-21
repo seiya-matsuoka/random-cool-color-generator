@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/.npm-cache/
 /.pnp
 .pnp.*
 .yarn/*
@@ -12,6 +13,9 @@
 
 # testing
 /coverage
+/.vitest/
+/playwright-report/
+/test-results/
 
 # next.js
 /.next/
@@ -19,6 +23,8 @@
 
 # production
 /build
+/dist/
+/storybook-static/
 
 # misc
 .DS_Store

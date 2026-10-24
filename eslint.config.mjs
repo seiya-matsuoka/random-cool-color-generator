@@ -31,17 +31,22 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}', '.storybook/preview.ts'],
     extends: [reactHooks.configs.flat.recommended, reactRefresh.configs.vite],
     languageOptions: {
       globals: globals.browser,
     },
   },
   {
-    files: ['*.config.{ts,mjs}'],
+    files: ['*.config.{ts,mjs}', '.storybook/main.ts', 'scripts/**/*.mjs'],
     languageOptions: {
       globals: globals.node,
     },
+  },
+  {
+    files: ['src/**/*.stories.tsx'],
+    // CSF3 は meta と Story オブジェクトを export する。型検査と Hooks の検査は維持する。
+    rules: { 'react-refresh/only-export-components': 'off' },
   },
   eslintConfigPrettier,
 ]);

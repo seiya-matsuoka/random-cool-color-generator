@@ -36,3 +36,9 @@ export type ColorRecord = {
   /** 大文字の #RRGGBB。お気に入りでは、この値を同じ色かどうかの基準にする。 */
   hex: string;
 };
+
+/** 保存形式の版はキーではなく envelope に持つ。型定義だけでは JSON の内容は保証しない。 */
+export type StoredCollection = {
+  version: 1;
+  items: ColorRecord[];
+};

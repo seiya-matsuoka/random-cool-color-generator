@@ -167,7 +167,10 @@ export function useColorGenerator() {
         history = { ...previous, items: appendHistory(previous.items, record) };
       }
       busy.current = false;
-      publish({ record, history, isGenerating: false });
+      // 生成中も旧記録はコピーできるため、表示記録の切り替え時にも古い完了通知を無効にする。
+      // 先に完了した旧記録の通知も消す。領域別の保存案内は history / favorites に保持する。
+      noticeId.current += 1;
+      publish({ record, history, isGenerating: false, notification: null });
     },
     [publish],
   );

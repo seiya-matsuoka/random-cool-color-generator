@@ -122,6 +122,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Regular: Story = {};
+/** 読み込み調整を操作通知とは別に表示する。実際の検証・保存 hook は使用しない。 */
+export const BothCollectionsAdjusted: Story = {
+  args: {
+    storageNotices: {
+      history: 'Some saved history entries were skipped or adjusted.',
+      favorites: 'Some saved favorites entries were skipped or adjusted.',
+    },
+    notification: { tone: 'success', message: 'HEX copied.' },
+  },
+};
 export const Empty: Story = { args: { record: null, history: [] } };
 export const InitialGenerating: Story = { args: { record: null, isGenerating: true } };
 export const Generating: Story = { args: { isGenerating: true, favorites: [knownRecord] } };

@@ -9,6 +9,8 @@ type RecordListProps = {
   /** readonly は UI から配列を変更しないための型上の制約。実行時の凍結ではない。 */
   records: readonly ColorRecord[];
   selectedRecordId: string | null;
+  /** 保存された別色で ID が重なっていても、選択中の 1 記録を区別するための追加照合。 */
+  selectedRecordHex?: string | null;
   favoriteHexes: readonly string[];
   isGenerating: boolean;
   historyStorage: StorageState;
@@ -58,8 +60,10 @@ export function RecordList({ headingRef, ...props }: RecordListProps) {
         ) : (
           <ul className="mt-4 space-y-3">
             {props.records.map((record) => {
-              // 履歴は同じ HEX の別記録を含む。選択は ID、登録状態は HEX で判定する。
-              const selected = props.selectedRecordId === record.id;
+              // 履歴は同じ HEX の別記録を含む。選択は記録の ID と HEX、登録状態は HEX で判定する。
+              const selected =
+                props.selectedRecordId === record.id &&
+                (props.selectedRecordHex === undefined || props.selectedRecordHex === record.hex);
               const isFavorite = props.favoriteHexes.includes(record.hex);
               const rowState = getUiState({
                 hasColor: true,
@@ -72,7 +76,8 @@ export function RecordList({ headingRef, ...props }: RecordListProps) {
               });
               return (
                 <li
-                  key={record.id}
+                  // 保存データの同一性に合わせる。同じ ID の別色があっても favorites の key を衝突させない。
+                  key={props.kind === 'history' ? record.id : record.hex}
                   className={`flex min-w-0 flex-col gap-2 rounded-xl border p-3 sm:flex-row sm:items-center ${selected ? 'border-slate-500 bg-slate-50' : 'border-slate-200'}`}
                 >
                   <button

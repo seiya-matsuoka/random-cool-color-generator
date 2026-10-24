@@ -19,6 +19,8 @@ type GeneratorScreenProps = {
   historyStorage: StorageState;
   favoriteStorage: StorageState;
   notification: Pick<NoticeProps, 'tone' | 'message' | 'live'> | null;
+  /** 読み込み時の調整は操作通知と独立させ、両領域の案内が同時にあっても欠けないようにする。 */
+  storageNotices?: { history?: string; favorites?: string };
   confirmation: Confirmation | null;
   onGenerate: () => void;
   onCopy: (format: CodeFormat, text: string) => void;
@@ -51,6 +53,7 @@ export function GeneratorScreen(props: GeneratorScreenProps) {
   });
   const listProps = {
     selectedRecordId: props.record?.id ?? null,
+    selectedRecordHex: props.record?.hex ?? null,
     favoriteHexes,
     isGenerating: props.isGenerating,
     historyStorage: props.historyStorage,
@@ -90,6 +93,12 @@ export function GeneratorScreen(props: GeneratorScreenProps) {
           {/* 操作通知と保存領域ごとの継続案内は内容を分け、同一エラーを重ねて読み上げない。 */}
           <div className="space-y-3">
             {props.notification && <Notice {...props.notification} />}
+            {props.storageNotices?.history && (
+              <Notice tone="warning" message={props.storageNotices.history} />
+            )}
+            {props.storageNotices?.favorites && (
+              <Notice tone="warning" message={props.storageNotices.favorites} />
+            )}
             {props.historyStorage === 'unavailable' && (
               <Notice
                 tone="warning"

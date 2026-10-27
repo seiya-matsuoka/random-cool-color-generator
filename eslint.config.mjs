@@ -48,5 +48,14 @@ export default defineConfig([
     // CSF3 は meta と Story オブジェクトを export する。型検査と Hooks の検査は維持する。
     rules: { 'react-refresh/only-export-components': 'off' },
   },
+  {
+    // runner は Node、evaluate / init script は browser で動く。両者を型検査の対象に保つ。
+    files: ['e2e/**/*.{ts,tsx}'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+  },
+  {
+    files: ['e2e/harness/**/*.tsx'],
+    extends: [reactHooks.configs.flat.recommended],
+  },
   eslintConfigPrettier,
 ]);

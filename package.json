@@ -20,7 +20,12 @@
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run test:coverage",
     "storybook": "node scripts/storybook.mjs dev --host 127.0.0.1 --port 6006 --exact-port --no-open --no-version-updates --disable-telemetry",
     "build-storybook": "node scripts/storybook.mjs build --disable-telemetry",
-    "verify": "npm run check && npm run build && npm run build-storybook"
+    "verify": "npm run check && npm run build && npm run build-storybook",
+    "e2e:install": "node scripts/playwright.mjs install chromium",
+    "test:e2e:production": "node scripts/playwright.mjs test --config playwright.config.ts",
+    "test:browser-lifecycle": "node scripts/playwright.mjs test --config playwright.lifecycle.config.ts",
+    "test:e2e": "npm run test:e2e:production && npm run test:browser-lifecycle",
+    "test:e2e:ui": "node scripts/playwright.mjs test --config playwright.config.ts --ui"
   },
   "dependencies": {
     "react": "19.3.1",

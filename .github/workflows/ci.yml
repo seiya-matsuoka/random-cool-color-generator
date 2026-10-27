@@ -12,7 +12,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     env:
       # 設定ファイルの評価前から、Storybook の起動イベントも無効にする。
       STORYBOOK_DISABLE_TELEMETRY: 'true'
@@ -31,6 +31,21 @@ jobs:
           npm --version
       - name: Install dependencies
         run: npm ci
-      # 静的検査、単体テストと coverage、アプリ / Storybook build を共通のコマンドで実行する。
+      # ブラウザは workspace 内へ取得する。Ubuntu の共有ライブラリ・フォントは使い捨て runner に導入する。
+      # キャッシュの復元と OS 依存導入を混同しないため、browser cache は追加しない。
+      - name: Install Chromium and system dependencies
+        run: npm run e2e:install -- --with-deps
+      # 本番 E2E と開発 Strict Mode の補助検証も、ローカルと同じ集約コマンドで実行する。
       - name: Verify
         run: npm run verify
+      # 失敗した最初の試行の trace を残す。実データ・認証済み profile・環境変数一覧は含めない。
+      - name: Upload browser failure reports
+        if: ${{ failure() && !cancelled() }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: browser-failure-reports
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+          if-no-files-found: warn

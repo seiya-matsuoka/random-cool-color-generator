@@ -83,7 +83,8 @@ export function RecordList({ headingRef, ...props }: RecordListProps) {
                   <button
                     type="button"
                     disabled={!rowState.canSelect}
-                    aria-label={`Show color ${record.hex}, record ${record.sequence}`}
+                    // 音声操作でも見えるラベルを使えるよう、選択中の補助テキストも操作名に含める。
+                    aria-label={`Show color ${record.hex}${selected ? ' Current record' : ''}, record ${record.sequence}`}
                     aria-current={selected ? 'true' : undefined}
                     onClick={() => props.onSelect(record)}
                     className="flex min-h-11 min-w-0 flex-1 items-center gap-3 rounded-lg p-1 text-left hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-700 disabled:cursor-not-allowed disabled:opacity-45"
@@ -96,7 +97,10 @@ export function RecordList({ headingRef, ...props }: RecordListProps) {
                     <span className="min-w-0">
                       <code className="font-semibold">{record.hex}</code>
                       {selected && (
-                        <span className="block text-xs text-slate-600">Current record</span>
+                        <>
+                          {/* 見た目の改行だけでなく、操作名との照合でも語の境界を残す。 */}{' '}
+                          <span className="block text-xs text-slate-600">Current record</span>
+                        </>
                       )}
                     </span>
                   </button>

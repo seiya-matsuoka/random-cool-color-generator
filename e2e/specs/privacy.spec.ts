@@ -1,7 +1,7 @@
 import { readFile, readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { test, expect, current, expand, collection } from '../support/fixtures';
-import { known, other, keys } from '../support/records';
+import { collection, current, expand, expect, test } from '../support/fixtures';
+import { keys, known, other } from '../support/records';
 
 test('本番の生成・選択・コピー・保存・削除は通信や URL に記録を載せない', async ({
   context,
@@ -69,7 +69,7 @@ test('本番の生成・選択・コピー・保存・削除は通信や URL に
   ).toBe(true);
 });
 
-test('実行時ソースと配信物に外部 CDN・送信処理・テスト harness を混ぜない', async () => {
+test('実行時ソースと配信物に外部 CDN・送信処理・テスト harness を混ぜない', async ({ page }) => {
   // Arrange: 読み取り対象はこのリポジトリの runtime ソースと build 済み dist だけ。
   const root = resolve(import.meta.dirname, '../..');
   const sourceRoot = resolve(root, 'src');
@@ -90,7 +90,34 @@ test('実行時ソースと配信物に外部 CDN・送信処理・テスト har
   }
   const html = await readFile(resolve(root, 'dist/index.html'), 'utf8');
   expect(html).toContain('/random-cool-color-generator/assets/');
-  expect(html).not.toMatch(/(?:src|href)=["']https?:/);
+  // DOMParser は切り離した文書を作る。アプリを実行せず、引用符や属性の順番に依存せず検査する。
+  const references = await page.evaluate((source) => {
+    const document = new DOMParser().parseFromString(source, 'text/html');
+    return Array.from(document.querySelectorAll('[src], [href]'), (element) => ({
+      tag: element.tagName,
+      rel: element.getAttribute('rel'),
+      src: element.getAttribute('src'),
+      href: element.getAttribute('href'),
+    }));
+  }, html);
+  const canonical = references.filter(
+    (reference) => reference.tag === 'LINK' && reference.rel === 'canonical',
+  );
+  // canonical は正規ページの識別であり、script・CSS などの外部読み込みの許可ではない。
+  expect(canonical).toEqual([
+    {
+      tag: 'LINK',
+      rel: 'canonical',
+      src: null,
+      href: 'https://seiya-matsuoka.github.io/random-cool-color-generator/',
+    },
+  ]);
+  for (const reference of references) {
+    if (reference.src !== null) expect(reference.src).not.toMatch(/^(?:https?:)?\/\//i);
+    if (reference.href !== null && reference !== canonical[0]) {
+      expect(reference.href).not.toMatch(/^(?:https?:)?\/\//i);
+    }
+  }
   const assets = await readdir(resolve(root, 'dist/assets'));
   for (const asset of assets.filter((name) => /\.(js|css)$/.test(name))) {
     const text = await readFile(resolve(root, 'dist/assets', asset), 'utf8');

@@ -4,6 +4,57 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Random Cool Color Generator</title>
+    <meta
+      name="description"
+      content="Generate cool colors, copy HEX, RGB, and HSL codes, and keep your history and favorites in this browser."
+    />
+    <meta name="theme-color" content="#F8FAFC" />
+
+    <!-- 正式 URL は検索・共有先を示す固定値とする。ローカルの URL や生成記録は含めない。 -->
+    <link rel="canonical" href="https://seiya-matsuoka.github.io/random-cool-color-generator/" />
+    <!-- 共有サービスは JavaScript を実行するとは限らないため、情報を静的 HTML に置く。 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Random Cool Color Generator" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Random Cool Color Generator" />
+    <meta
+      property="og:description"
+      content="Generate cool colors, copy HEX, RGB, and HSL codes, and keep your history and favorites in this browser."
+    />
+    <meta
+      property="og:url"
+      content="https://seiya-matsuoka.github.io/random-cool-color-generator/"
+    />
+    <!-- 画像も正式な絶対 URL にし、クローラーが閲覧元に依存せず取得できるようにする。 -->
+    <meta
+      property="og:image"
+      content="https://seiya-matsuoka.github.io/random-cool-color-generator/og-image.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Random Cool Color Generator with cyan, blue, and violet color swatches."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Random Cool Color Generator" />
+    <meta
+      name="twitter:description"
+      content="Generate cool colors, copy HEX, RGB, and HSL codes, and keep your history and favorites in this browser."
+    />
+    <meta
+      name="twitter:image"
+      content="https://seiya-matsuoka.github.io/random-cool-color-generator/og-image.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Random Cool Color Generator with cyan, blue, and violet color swatches."
+    />
+
+    <!-- BASE_URL は Vite が配信サブパスへ置換する。public は URL の一部にしない。 -->
+    <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%favicon-32x32.png" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="%BASE_URL%favicon.svg" />
   </head>
   <body>
     <div id="root"></div>

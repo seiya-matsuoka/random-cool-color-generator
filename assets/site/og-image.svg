@@ -1,0 +1,32 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1200"
+  height="630"
+  viewBox="0 0 1200 630"
+  role="img"
+  aria-labelledby="og-title og-description"
+  font-family="Arial, Helvetica, sans-serif"
+>
+  <title id="og-title">Random Cool Color Generator</title>
+  <desc id="og-description">
+    Random Cool Color Generator with cyan, blue, and violet color swatches.
+  </desc>
+  <!-- 実画面の撮影ではなく、アプリ名・既存の説明文・独自の図形による共有用の原稿とする。 -->
+  <rect width="1200" height="630" fill="#F8FAFC" />
+  <rect x="32" y="32" width="1136" height="566" rx="36" fill="#FFFFFF" stroke="#E2E8F0" />
+  <rect x="80" y="116" width="64" height="8" rx="4" fill="#1D89E2" />
+  <g fill="#0F172A" font-size="64" font-weight="700" letter-spacing="-1.5">
+    <text x="80" y="230">Random Cool</text>
+    <text x="80" y="306">Color Generator</text>
+  </g>
+  <g fill="#475569" font-size="27">
+    <text x="83" y="378">A fresh cool color,</text>
+    <text x="83" y="418">with the details to keep it.</text>
+  </g>
+  <!-- favicon と同じ形・色を使う。元 SVG だけで描画できるよう外部参照は持たない。 -->
+  <g transform="translate(744 150) scale(5.5)">
+    <rect x="6" y="6" width="28" height="28" rx="7" fill="#22D3EE" />
+    <rect x="18" y="18" width="28" height="28" rx="7" fill="#1D89E2" />
+    <rect x="30" y="30" width="28" height="28" rx="7" fill="#7C3AED" />
+  </g>
+</svg>
